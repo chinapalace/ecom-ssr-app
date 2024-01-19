@@ -37,14 +37,20 @@ function SortFilterItem({ item }: { item: SortFilterItem }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const active = searchParams.get('sort') === item.slug;
-  const q = searchParams.get('q');
-  const href = createUrl(
-    pathname,
-    new URLSearchParams({
-      ...(q && { q }),
-      ...(item.slug && item.slug.length && { sort: item.slug })
-    })
-  );
+
+  // Create a new instance of URLSearchParams based on the existing searchParams
+  const newSearchParams = new URLSearchParams(searchParams);
+
+  // Update the 'sort' parameter
+  if (item.slug && item.slug.length) {
+    newSearchParams.set('sort', item.slug);
+  } else {
+    // If the item slug is not valid, remove the 'sort' parameter
+    newSearchParams.delete('sort');
+  }
+
+  // Construct the URL with updated search parameters
+  const href = createUrl(pathname, newSearchParams);
   const DynamicTag = active ? 'p' : Link;
 
   return (

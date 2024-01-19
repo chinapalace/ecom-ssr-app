@@ -15,10 +15,21 @@ export default async function SearchPage({
 }: {
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  const { sort, q: searchValue } = searchParams as { [key: string]: string };
+  const {
+    sort,
+    q: searchValue,
+    shopifyDomain,
+    accessToken
+  } = searchParams as { [key: string]: string };
   const { sortKey, reverse } = sorting.find((item) => item.slug === sort) || defaultSort;
 
-  const products = await getProducts({ sortKey, reverse, query: searchValue });
+  const products = await getProducts({
+    shopifyDomain,
+    accessToken,
+    sortKey,
+    reverse,
+    query: searchValue
+  });
   const resultsText = products.length > 1 ? 'results' : 'result';
 
   return (
@@ -32,7 +43,7 @@ export default async function SearchPage({
         </p>
       ) : null}
       {products.length > 0 ? (
-        <Grid className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        <Grid className="grid-cols-2 sm:grid-cols-2 lg:grid-cols-3">
           <ProductGridItems products={products} />
         </Grid>
       ) : null}

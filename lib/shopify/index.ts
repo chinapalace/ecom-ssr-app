@@ -53,30 +53,37 @@ import {
 const domain = process.env.SHOPIFY_STORE_DOMAIN
   ? ensureStartsWith(process.env.SHOPIFY_STORE_DOMAIN, 'https://')
   : '';
-const endpoint = `${domain}${SHOPIFY_GRAPHQL_API_ENDPOINT}`;
-const key = process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN!;
+// const endpoint = `${domain}${SHOPIFY_GRAPHQL_API_ENDPOINT}`;
+// const key = process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN!;
 
 type ExtractVariables<T> = T extends { variables: object } ? T['variables'] : never;
 
 export async function shopifyFetch<T>({
+  shopifyDomain,
+  accessToken,
   cache = 'force-cache',
   headers,
   query,
   tags,
   variables
 }: {
+  shopifyDomain: string;
+  accessToken: string;
   cache?: RequestCache;
   headers?: HeadersInit;
   query: string;
   tags?: string[];
   variables?: ExtractVariables<T>;
 }): Promise<{ status: number; body: T } | never> {
+  console.log('shopifyDomain', shopifyDomain);
+  const endpoint = `${ensureStartsWith(shopifyDomain, 'https://')}${SHOPIFY_GRAPHQL_API_ENDPOINT}`;
+
   try {
     const result = await fetch(endpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-Shopify-Storefront-Access-Token': key,
+        'X-Shopify-Storefront-Access-Token': accessToken,
         ...headers
       },
       body: JSON.stringify({
@@ -283,15 +290,21 @@ export async function getCollection(handle: string): Promise<Collection | undefi
 }
 
 export async function getCollectionProducts({
+  shopifyDomain,
+  accessToken,
   collection,
   reverse,
   sortKey
 }: {
+  shopifyDomain: string;
+  accessToken: string;
   collection: string;
   reverse?: boolean;
   sortKey?: string;
 }): Promise<Product[]> {
   const res = await shopifyFetch<ShopifyCollectionProductsOperation>({
+    shopifyDomain,
+    accessToken,
     query: getCollectionProductsQuery,
     tags: [TAGS.collections, TAGS.products],
     variables: {
@@ -309,8 +322,10 @@ export async function getCollectionProducts({
   return reshapeProducts(removeEdgesAndNodes(res.body.data.collection.products));
 }
 
-export async function getCollections(): Promise<Collection[]> {
+export async function getCollections({ shopifyDomain, accessToken }): Promise<Collection[]> {
   const res = await shopifyFetch<ShopifyCollectionsOperation>({
+    shopifyDomain,
+    accessToken,
     query: getCollectionsQuery,
     tags: [TAGS.collections]
   });
@@ -396,15 +411,21 @@ export async function getProductRecommendations(productId: string): Promise<Prod
 }
 
 export async function getProducts({
+  shopifyDomain,
+  accessToken,
   query,
   reverse,
   sortKey
 }: {
+  shopifyDomain: string;
+  accessToken: string;
   query?: string;
   reverse?: boolean;
   sortKey?: string;
 }): Promise<Product[]> {
   const res = await shopifyFetch<ShopifyProductsOperation>({
+    shopifyDomain,
+    accessToken,
     query: getProductsQuery,
     tags: [TAGS.products],
     variables: {

@@ -2,10 +2,17 @@ import clsx from 'clsx';
 import { Suspense } from 'react';
 
 import { getCollections } from 'lib/shopify';
+import { headers } from 'next/headers';
 import FilterList from './filter';
 
 async function CollectionList() {
-  const collections = await getCollections();
+  const referer = headers().get('referer');
+  const url = new URL(referer!);
+  const searchParams = url.searchParams;
+  const shopifyDomain = searchParams.get('shopifyDomain')!;
+  const accessToken = searchParams.get('accessToken')!;
+
+  const collections = await getCollections({ shopifyDomain, accessToken });
   return <FilterList list={collections} title="Collections" />;
 }
 

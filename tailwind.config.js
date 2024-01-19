@@ -27,6 +27,10 @@ module.exports = {
         fadeIn: 'fadeIn .3s ease-in-out',
         carousel: 'marquee 60s linear infinite',
         blink: 'blink 1.4s both infinite'
+      },
+      aspectRatio: {
+        '2/3': '150%',
+        '3/4': '133.3333333%'
       }
     }
   },
