@@ -29,8 +29,8 @@ module.exports = {
         blink: 'blink 1.4s both infinite'
       },
       aspectRatio: {
-        '2/3': '150%',
-        '3/4': '133.3333333%'
+        '2/3': '2 / 3',
+        '3/4': '3 / 4'
       }
     }
   },
