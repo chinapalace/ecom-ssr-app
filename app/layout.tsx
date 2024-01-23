@@ -1,5 +1,5 @@
 import { GeistSans } from 'geist/font';
-import { headers } from 'next/headers';
+import { getSearchParams } from 'next-impl-getters/get-search-params';
 import { ReactNode, Suspense } from 'react';
 import './globals.css';
 
@@ -35,12 +35,13 @@ function extractSearchParams(urlString) {
 }
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
-  const referer = headers().get('referer');
+  // const referer = headers().get('referer');
   // const url = new URL(referer!);
   // const searchParams = url.searchParams;
-  const searchParams = extractSearchParams(referer);
-  const appId = searchParams['appId'];
-  // const appId = searchParams.get('appId')!;
+  // const searchParams = extractSearchParams(referer);
+  // const appId = searchParams['appId'];
+  const searchParams = getSearchParams();
+  const appId = searchParams.get('appId')!;
   // const appId = '4WSnL1O8mv';
   const res = await fetch(`${process.env.TAPCART_API}/apps/${appId}/themes`);
   const data = await res.json();
