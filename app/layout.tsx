@@ -11,11 +11,38 @@ function convertThemeToCSSVariables(theme: any) {
     ${cssVariables.join('\n')}
   }`;
 }
+function extractSearchParams(urlString) {
+  // Find the start of the query string
+  const queryStringStart = urlString.indexOf('?');
+  if (queryStringStart === -1) {
+    return {};
+  }
+
+  // Extract the query string
+  const queryString = urlString.substring(queryStringStart + 1);
+
+  // Split the query string into key-value pairs
+  const pairs = queryString.split('&');
+
+  // Extract the keys and values, and add them to the params object
+  const params = {};
+  pairs.forEach((pair) => {
+    const [key, value] = pair.split('=');
+    if (key) {
+      params[decodeURIComponent(key)] = decodeURIComponent(value || '');
+    }
+  });
+
+  return params;
+}
+
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const referer = headers().get('referer');
-  const url = new URL(referer!);
-  const searchParams = url.searchParams;
-  const appId = searchParams.get('appId')!;
+  // const url = new URL(referer!);
+  // const searchParams = url.searchParams;
+  const searchParams = extractSearchParams(referer);
+  const appId = searchParams['appId'];
+  // const appId = searchParams.get('appId')!;
   // const appId = '4WSnL1O8mv';
   const res = await fetch(`${process.env.TAPCART_API}/apps/${appId}/themes`);
   const data = await res.json();
