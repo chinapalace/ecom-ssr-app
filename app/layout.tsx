@@ -12,28 +12,26 @@ function convertThemeToCSSVariables(theme: any) {
   }`;
 }
 function extractSearchParams(urlString) {
-  // Find the start of the query string
-  const queryStringStart = urlString.indexOf('?');
-  if (queryStringStart === -1) {
-    return {};
+  try {
+    // Create a URL object
+    const url = new URL(urlString);
+
+    // Extract search parameters
+    const searchParams = new URLSearchParams(url.search);
+
+    // Convert search parameters to a simple object
+    const params = {};
+    searchParams.forEach((value, key) => {
+      params[key] = value;
+    });
+
+    return params;
+  } catch (error) {
+    console.error('Invalid URL logged:', error.message);
+    return {
+      appId: null
+    };
   }
-
-  // Extract the query string
-  const queryString = urlString.substring(queryStringStart + 1);
-
-  // Split the query string into key-value pairs
-  const pairs = queryString.split('&');
-
-  // Extract the keys and values, and add them to the params object
-  const params = {};
-  pairs.forEach((pair) => {
-    const [key, value] = pair.split('=');
-    if (key) {
-      params[decodeURIComponent(key)] = decodeURIComponent(value || '');
-    }
-  });
-
-  return params;
 }
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
