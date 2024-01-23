@@ -2,13 +2,14 @@ import clsx from 'clsx';
 import { Suspense } from 'react';
 
 import { getCollections } from 'lib/shopify';
-import { headers } from 'next/headers';
+import { getSearchParams } from 'next-impl-getters/get-search-params';
 import FilterList from './filter';
 
 async function CollectionList() {
-  const referer = headers().get('referer');
-  const url = new URL(referer!);
-  const searchParams = url.searchParams;
+  // const referer = headers().get('referer');
+  // const url = new URL(referer!);
+  // const searchParams = url.searchParams;
+  const searchParams = getSearchParams();
   const shopifyDomain = searchParams.get('shopifyDomain')!;
   const accessToken = searchParams.get('accessToken')!;
 
