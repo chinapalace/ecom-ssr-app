@@ -11,28 +11,6 @@ function convertThemeToCSSVariables(theme: any) {
     ${cssVariables.join('\n')}
   }`;
 }
-function extractSearchParams(urlString) {
-  try {
-    // Create a URL object
-    const url = new URL(urlString);
-
-    // Extract search parameters
-    const searchParams = new URLSearchParams(url.search);
-
-    // Convert search parameters to a simple object
-    const params = {};
-    searchParams.forEach((value, key) => {
-      params[key] = value;
-    });
-
-    return params;
-  } catch (error) {
-    console.error('Invalid URL logged:', urlString);
-    return {
-      appId: null
-    };
-  }
-}
 
 export const dynamic = 'force-dynamic';
 
