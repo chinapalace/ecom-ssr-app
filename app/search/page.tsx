@@ -5,11 +5,6 @@ import { getProducts } from 'lib/shopify';
 
 export const runtime = 'edge';
 
-export const metadata = {
-  title: 'Search',
-  description: 'Search for products in the store.'
-};
-
 export default async function SearchPage({
   searchParams
 }: {
