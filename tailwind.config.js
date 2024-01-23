@@ -6,8 +6,22 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-geist-sans)']
+        sans: [
+          'system-ui',
+          '-apple-system',
+          'BlinkMacSystemFont',
+          'Segoe UI',
+          'Roboto',
+          'Helvetica Neue',
+          'Arial',
+          'sans-serif'
+        ]
       },
+      colors: {
+        primary: '#212121',
+        secondary: 'var(--COLOR_SECONDARY)'
+      },
+
       keyframes: {
         fadeIn: {
           from: { opacity: 0 },
@@ -21,6 +35,11 @@ module.exports = {
           '0%': { opacity: 0.2 },
           '20%': { opacity: 1 },
           '100% ': { opacity: 0.2 }
+        },
+        shimmer: {
+          '100%': {
+            transform: 'translateX(100%)'
+          }
         }
       },
       animation: {
@@ -29,8 +48,8 @@ module.exports = {
         blink: 'blink 1.4s both infinite'
       },
       aspectRatio: {
-        '2/3': '150%',
-        '3/4': '133.3333333%'
+        '2/3': '2 / 3',
+        '3/4': '3 / 4'
       }
     }
   },
