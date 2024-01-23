@@ -34,6 +34,8 @@ function extractSearchParams(urlString) {
   }
 }
 
+export const dynamic = 'force-dynamic';
+
 export default async function RootLayout({ children }: { children: ReactNode }) {
   // const referer = headers().get('referer');
   // const url = new URL(referer!);
