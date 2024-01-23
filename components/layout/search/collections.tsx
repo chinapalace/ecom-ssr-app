@@ -2,7 +2,6 @@ import clsx from 'clsx';
 import { Suspense } from 'react';
 
 import { getCollections } from 'lib/shopify';
-import { getSearchParams } from 'next-impl-getters/get-search-params';
 import FilterList from './filter';
 
 export const dynamic = 'force-dynamic';
@@ -10,9 +9,11 @@ async function CollectionList() {
   // const referer = headers().get('referer');
   // const url = new URL(referer!);
   // const searchParams = url.searchParams;
-  const searchParams = getSearchParams();
-  const shopifyDomain = searchParams.get('shopifyDomain')!;
-  const accessToken = searchParams.get('accessToken')!;
+  // const searchParams = getSearchParams();
+  // const shopifyDomain = searchParams.get('shopifyDomain')!;
+  // const accessToken = searchParams.get('accessToken')!;
+  const shopifyDomain = process.env.SHOPIFY_DOMAIN!;
+  const accessToken = process.env.SHOPIFY_ACCESS_TOKEN!;
 
   const collections = await getCollections({ shopifyDomain, accessToken });
   return <FilterList list={collections} title="Collections" />;
