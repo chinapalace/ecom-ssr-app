@@ -59,8 +59,8 @@ const domain = process.env.SHOPIFY_STORE_DOMAIN
 type ExtractVariables<T> = T extends { variables: object } ? T['variables'] : never;
 
 export async function shopifyFetch<T>({
-  shopifyDomain = process.env.SHOPIFY_STORE_DOMAIN,
-  accessToken = process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN,
+  shopifyDomain,
+  accessToken,
   cache = 'force-cache',
   headers,
   query,
