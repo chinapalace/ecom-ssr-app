@@ -27,7 +27,7 @@ function extractSearchParams(urlString) {
 
     return params;
   } catch (error) {
-    console.error('Invalid URL logged:', error.message);
+    console.error('Invalid URL logged:', urlString);
     return {
       appId: null
     };
