@@ -1,4 +1,5 @@
 import { GeistSans } from 'geist/font';
+import { getSearchParams } from 'next-impl-getters/get-search-params';
 import { ReactNode, Suspense } from 'react';
 import './globals.css';
 
@@ -19,9 +20,9 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   // const searchParams = url.searchParams;
   // const searchParams = extractSearchParams(referer);
   // const appId = searchParams['appId'];
-  // const searchParams = getSearchParams();
-  // const appId = searchParams.get('appId')!;
-  const appId = '4WSnL1O8mv';
+  const searchParams = getSearchParams();
+  const appId = searchParams.get('appId')!;
+  // const appId = '4WSnL1O8mv';
   const res = await fetch(`${process.env.TAPCART_API}/apps/${appId}/themes`);
   const data = await res.json();
   const { colors } = data[0];
