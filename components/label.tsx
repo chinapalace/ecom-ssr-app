@@ -18,7 +18,7 @@ const Label = ({
     // })}
     // className="flex h-12 items-center justify-center bg-gray-200"
     >
-      <div className=" flex flex-col bg-white/70 pt-2 font-semibold text-black backdrop-blur-md dark:border-neutral-800 dark:bg-black/70 dark:text-white">
+      <div className=" flex flex-col bg-primary pt-2 font-semibold text-black backdrop-blur-md dark:border-neutral-800 dark:bg-black/70 dark:text-white">
         <Price
           className="text-sm text-black dark:text-white"
           amount={amount}
