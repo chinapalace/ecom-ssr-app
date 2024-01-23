@@ -75,7 +75,6 @@ export async function shopifyFetch<T>({
   tags?: string[];
   variables?: ExtractVariables<T>;
 }): Promise<{ status: number; body: T } | never> {
-  console.log('shopifyDomain', shopifyDomain);
   const endpoint = `${ensureStartsWith(shopifyDomain, 'https://')}${SHOPIFY_GRAPHQL_API_ENDPOINT}`;
 
   try {
