@@ -3,6 +3,8 @@ import { getSearchParams } from 'next-impl-getters/get-search-params';
 import { ReactNode, Suspense } from 'react';
 import './globals.css';
 
+export const dynamic = 'force-dynamic';
+
 function convertThemeToCSSVariables(theme: any) {
   const cssVariables = Object.entries(theme).map(([key, value]) => {
     return `--${key}: ${value};`;

@@ -5,6 +5,8 @@ import { getCollections } from 'lib/shopify';
 import { getSearchParams } from 'next-impl-getters/get-search-params';
 import FilterList from './filter';
 
+export const dynamic = 'force-dynamic';
+
 async function CollectionList() {
   const searchParams = getSearchParams();
   const shopifyDomain = searchParams.get('shopifyDomain')!;

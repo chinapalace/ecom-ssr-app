@@ -3,6 +3,8 @@ import { getPathname } from 'next-impl-getters/get-pathname';
 import { getSearchParams } from 'next-impl-getters/get-search-params';
 import FilterMenu from './filter-menu';
 
+export const dynamic = 'force-dynamic';
+
 export default async function handler() {
   const searchParams = getSearchParams();
   const pathname = getPathname();
