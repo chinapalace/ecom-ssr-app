@@ -18,7 +18,6 @@ interface SearchAndDiscoveryFilters {
 const ListFilter: FC<ListFilterProps> = ({ filter, onFilterChange, filterState }) => {
   const { values } = filter;
 
-  console.log(filter);
   return (
     <div key={filter.id}>
       <>
@@ -75,50 +74,52 @@ const Slider = forwardRef(function Slider(props: SliderProps, ref: ForwardedRef<
       slotProps={{
         thumb: {
           className:
-            'ring-cyan-500 dark:ring-cyan-400 ring-2 w-4 h-4 -mt-1 -ml-2 flex items-center justify-center bg-white rounded-full shadow absolute'
+            'ring-black dark:ring-cyan-400 ring-2 w-4 h-4 -mt-1 -ml-2 flex items-center justify-center bg-white rounded-full shadow absolute'
         },
-        root: { className: 'w-full relative inline-block h-2 cursor-pointer' },
+        root: { className: 'px-2 w-full pt-6 relative inline-flex h-10 cursor-pointer' },
         rail: {
           className: 'bg-slate-100 dark:bg-slate-700 h-2 w-full rounded-full block absolute'
         },
         track: {
-          className: 'bg-cyan-500 dark:bg-cyan-400 h-2 absolute rounded-full'
+          className: 'bg-black dark:bg-cyan-400 h-2 absolute rounded-full'
+        },
+
+        markLabel: {
+          className:
+            'absolute top-0 text-xs text-gray-500 dark:text-gray-400 mb-2 transform -translate-x-1/2'
         }
       }}
     />
   );
 });
-const PriceRangeFilter: FC<PriceRangeFilterProps> = ({ filter, onFilterChange, filterState }) => {
-  const rangeValues = filter.values.map((value) => JSON.parse(value.input));
+const PriceRangeFilter: FC<PriceRangeFilterProps> = ({
+  priceRange,
+  setPriceRange,
+  minAndMaxPrice
+}) => {
+  const marks = [
+    {
+      value: minAndMaxPrice[0],
+      label: `$${minAndMaxPrice[0]}`
+    },
+    {
+      value: minAndMaxPrice[1],
+      label: `$${minAndMaxPrice[1]}`
+    }
+  ];
 
-  console.log(rangeValues);
-  return (
-    <div>
-      {rangeValues.map((range, index) => (
-        <div key={filter.values[index].id}>
-          <Slider
-            value={filterState[filter.values[index].input]}
-            onChange={onFilterChange}
-            getAriaLabel={() => 'Price range'}
-            getAriaValueText={valuetext}
-            min={range.min}
-            max={range.max}
-          />
-        </div>
-      ))}
-    </div>
-  );
-};
-
-const PriceRangeFilterGroup = ({ filter, onFilterChange, filterState }) => {
   return (
     <Disclosure>
-      <Disclosure.Button className="py-2">{filter.label}</Disclosure.Button>
-      <Disclosure.Panel>
-        <PriceRangeFilter
-          filter={filter}
-          onFilterChange={onFilterChange}
-          filterState={filterState}
+      <Disclosure.Button className="py-2">Price</Disclosure.Button>
+      <Disclosure.Panel className="w-full">
+        <Slider
+          value={priceRange}
+          onChange={(e, val, activeThumb) => setPriceRange(val, activeThumb)}
+          getAriaLabel={() => 'Price range'}
+          getAriaValueText={valuetext}
+          min={minAndMaxPrice[0]}
+          max={minAndMaxPrice[1]}
+          marks={marks}
         />
       </Disclosure.Panel>
     </Disclosure>
@@ -128,7 +129,10 @@ const PriceRangeFilterGroup = ({ filter, onFilterChange, filterState }) => {
 export const SearchAndDiscoveryFilters: FC<SearchAndDiscoveryFilters> = ({
   filters,
   onFilterChange,
-  filterState
+  filterState,
+  priceRange,
+  setPriceRange,
+  minAndMaxPrice
 }) => {
   return (
     <div className="flex flex-col items-start">
@@ -145,11 +149,11 @@ export const SearchAndDiscoveryFilters: FC<SearchAndDiscoveryFilters> = ({
             );
           case 'PRICE_RANGE':
             return (
-              <PriceRangeFilterGroup
+              <PriceRangeFilter
                 key={filter.id}
-                filter={filter}
-                onFilterChange={onFilterChange}
-                filterState={filterState}
+                priceRange={priceRange}
+                setPriceRange={setPriceRange}
+                minAndMaxPrice={minAndMaxPrice}
               />
             );
           default:

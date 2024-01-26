@@ -6,14 +6,22 @@ import { ShopifyCollectionFilterValue } from 'lib/shopify/types';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Fragment, useEffect, useState } from 'react';
 
-function getPriceRange(filters) {
-  const priceFilter = filters.find((filter) => filter.id === 'filter.v.price');
-  const priceValues = priceFilter?.values;
-  const input = JSON.parse(priceValues?.[0].input);
-  const { price } = input || {};
-  const min = price?.min;
-  const max = price?.max;
-  return { min, max };
+function getMinMaxPrice(data) {
+  let minPrice = 0;
+  let maxPrice = 0;
+
+  for (const filter of data) {
+    if (filter.type === 'PRICE_RANGE') {
+      const priceData = JSON.parse(filter.values[0].input).price;
+      if (priceData) {
+        minPrice = priceData.min;
+        maxPrice = priceData.max;
+        break; // Stop iterating once we find the "PRICE_RANGE" filter
+      }
+    }
+  }
+
+  return [minPrice, maxPrice];
 }
 export default function FilterMenu({ filters }) {
   const pathname = usePathname();
@@ -23,7 +31,16 @@ export default function FilterMenu({ filters }) {
   const openFilterMenu = () => setIsOpen(true);
   const closeFilterMenu = () => setIsOpen(false);
 
-  const [filterState, setFilterState] = useState({});
+  const initialFilters = searchParams.get('filters') ? JSON.parse(searchParams.get('filters')) : [];
+
+  const initialFilterState = initialFilters.reduce((acc, current) => {
+    acc[current] = true;
+    return acc;
+  }, {});
+
+  // filter prop is the total list of filters
+  // filterState is the current state of the filters derived from the URL
+  const [filterState, setFilterState] = useState(initialFilterState || {});
   const handleFilterChange = (filterInput: string, value: ShopifyCollectionFilterValue[]) => {
     setFilterState((prevState) => ({
       ...prevState,
@@ -31,9 +48,31 @@ export default function FilterMenu({ filters }) {
     }));
   };
 
-  const applyFiltersToURL = () => {
-    const filtersToApply = Object.keys(filterState).filter((key) => filterState[key]);
+  const [minPrice, maxPrice] = getMinMaxPrice(filters);
+  const priceFromUrl = initialFilters.find((filter) => {
+    const parsedFilter = JSON.parse(filter);
+    return parsedFilter.price !== undefined;
+  });
+  const priceRangeFromUrlObj = priceFromUrl ? JSON.parse(priceFromUrl).price : {};
+  const priceRangeFromUrl = priceRangeFromUrlObj
+    ? [priceRangeFromUrlObj.min, priceRangeFromUrlObj.max]
+    : [minPrice, maxPrice];
 
+  const [priceRange, setPriceRange] = useState(priceRangeFromUrl);
+  const [priceRangeUpdated, setPriceRangeUpdated] = useState(false);
+  const handlePriceRangeChange = (newValue: number[]) => {
+    setPriceRange(newValue);
+    setPriceRangeUpdated(true);
+  };
+
+  const applyFiltersToURL = () => {
+    let filtersToApply = Object.keys(filterState).filter((key) => filterState[key]);
+    if (priceRangeUpdated) {
+      filtersToApply = [
+        ...filtersToApply,
+        JSON.stringify({ price: { min: priceRange[0], max: priceRange[1] } })
+      ];
+    }
     const newParams = new URLSearchParams(searchParams.toString());
     newParams.set('filters', JSON.stringify(filtersToApply));
 
@@ -108,6 +147,9 @@ export default function FilterMenu({ filters }) {
                     filters={filters}
                     onFilterChange={handleFilterChange}
                     filterState={filterState}
+                    priceRange={priceRange}
+                    setPriceRange={handlePriceRangeChange}
+                    minAndMaxPrice={[minPrice, maxPrice]}
                   />
                 </div>
                 <button

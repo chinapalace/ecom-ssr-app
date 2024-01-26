@@ -7,7 +7,7 @@ export default function SearchLayout({ children }: { children: React.ReactNode }
   return (
     <Suspense>
       <div
-        className="mb-2 flex h-10 w-full border-y border-neutral-200 bg-neutral-200 text-black transition-colors dark:border-neutral-700 dark:text-white"
+        className="mb-2 flex h-10 w-full border-y border-neutral-200 bg-neutral-200 text-black transition-colors dark:border-neutral-700 dark:bg-neutral-900 dark:text-white"
         style={{ gap: '1px' }}
       >
         <div className=" flex-1 bg-white">
