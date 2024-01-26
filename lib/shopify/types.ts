@@ -203,6 +203,7 @@ export type ShopifyCollectionProductsOperation = {
     handle: string;
     reverse?: boolean;
     sortKey?: string;
+    filters?: string;
   };
 };
 
@@ -261,5 +262,33 @@ export type ShopifyProductsOperation = {
     query?: string;
     reverse?: boolean;
     sortKey?: string;
+  };
+};
+
+export type ShopifyCollectionFilterValue = {
+  id: string;
+  label: string;
+  count: number;
+  input: string;
+};
+
+export type ShopifyCollectionFilter = {
+  id: string;
+  label: string;
+  type: 'LIST' | 'PRICE_RANGE';
+  values: ShopifyCollectionFilterValue[];
+};
+
+export type ShopifyCollectionFilterOperation = {
+  data: {
+    collection: {
+      handle: string;
+      products: {
+        filters: ShopifyCollectionFilter[];
+      };
+    };
+  };
+  variables: {
+    collectionHandle: string;
   };
 };

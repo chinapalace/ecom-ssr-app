@@ -14,7 +14,8 @@ import { getCartQuery } from './queries/cart';
 import {
   getCollectionProductsQuery,
   getCollectionQuery,
-  getCollectionsQuery
+  getCollectionsQuery,
+  getCollectionFiltersQuery
 } from './queries/collection';
 import { getMenuQuery } from './queries/menu';
 import { getPageQuery, getPagesQuery } from './queries/page';
@@ -47,7 +48,8 @@ import {
   ShopifyProductRecommendationsOperation,
   ShopifyProductsOperation,
   ShopifyRemoveFromCartOperation,
-  ShopifyUpdateCartOperation
+  ShopifyUpdateCartOperation,
+  ShopifyCollectionFilterOperation
 } from './types';
 
 const domain = process.env.SHOPIFY_STORE_DOMAIN
@@ -293,13 +295,15 @@ export async function getCollectionProducts({
   accessToken,
   collection,
   reverse,
-  sortKey
+  sortKey,
+  filters
 }: {
   shopifyDomain: string;
   accessToken: string;
   collection: string;
   reverse?: boolean;
   sortKey?: string;
+  filters?: string;
 }): Promise<Product[]> {
   const res = await shopifyFetch<ShopifyCollectionProductsOperation>({
     shopifyDomain,
@@ -309,7 +313,8 @@ export async function getCollectionProducts({
     variables: {
       handle: collection,
       reverse,
-      sortKey: sortKey === 'CREATED_AT' ? 'CREATED' : sortKey
+      sortKey: sortKey === 'CREATED_AT' ? 'CREATED' : sortKey,
+      filters
     }
   });
 
@@ -435,6 +440,34 @@ export async function getProducts({
   });
 
   return reshapeProducts(removeEdgesAndNodes(res.body.data.products));
+}
+
+export async function getCollectionFilters({
+  shopifyDomain,
+  accessToken,
+  collectionHandle
+}: {
+  shopifyDomain: string;
+  accessToken: string;
+  collectionHandle: string;
+}) {
+  const res = await shopifyFetch<ShopifyCollectionFilterOperation>({
+    shopifyDomain,
+    accessToken,
+    query: getCollectionFiltersQuery,
+    variables: {
+      collectionHandle
+    }
+  });
+
+  return reshapeFiltersData(res.body.data.collection.products.filters);
+}
+
+// Utility function to reshape the filters data as needed
+function reshapeFiltersData(filtersData) {
+  // Logic to reshape the filters data
+  // This depends on the desired format and structure
+  return filtersData;
 }
 
 // This is called from `app/api/revalidate.ts` so providers can control revalidation logic.
