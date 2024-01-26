@@ -1,5 +1,7 @@
 const baseUrl =
-  process.env.NODE_ENV === 'development' ? 'http://localhost:3000/' : process.env.VERCEL_URL;
+  process.env.NODE_ENV === 'development'
+    ? 'http://localhost:3000/'
+    : 'https://' + process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL;
 
 export async function dynamicBlurDataUrl(url: string) {
   const base64str = await fetch(`${baseUrl}/_next/image?url=${url}&w=16&q=75`).then(async (res) =>
