@@ -1,3 +1,4 @@
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { GeistSans } from 'geist/font';
 import { getSearchParams } from 'next-impl-getters/get-search-params';
 import { ReactNode, Suspense } from 'react';
@@ -36,6 +37,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         {/* <Navbar /> */}
         <Suspense>
           <main>{children}</main>
+          <SpeedInsights />
         </Suspense>
       </body>
     </html>
