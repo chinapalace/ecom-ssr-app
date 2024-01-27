@@ -19,9 +19,12 @@ function ClientEventPage({ productId }: { productId: string }) {
   useEffect(() => {
     const messageHandlerName = 'Tapcart';
 
+    window.Tapcart.actions.openProduct({
+      productId: '8109689274680'
+    });
     try {
       //   if (window.webkit) {
-      window.webkit.messageHandlers[messageHandlerName].postMessage(JSON.stringify(eventData));
+      //   window.webkit.messageHandlers[messageHandlerName].postMessage(JSON.stringify(eventData));
       //     return;
       //   } else {
       //     window.postMessage(JSON.stringify(eventData));
@@ -31,7 +34,12 @@ function ClientEventPage({ productId }: { productId: string }) {
     }
   }, []);
 
-  return <div>{error}</div>;
+  return (
+    <div>
+      <div>{error}</div>
+      {/* <div>{window.webkit.messageHandlers}</div> */}
+    </div>
+  );
 }
 
 export default ClientEventPage;
