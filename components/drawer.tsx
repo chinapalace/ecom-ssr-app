@@ -1,7 +1,26 @@
 import { Dialog, Transition } from '@headlessui/react';
-import { Fragment } from 'react';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { Fragment, useEffect, useState } from 'react';
 
-export default function DialogComponent({
+export function useDrawer() {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [isOpen, setIsOpen] = useState(false);
+  const openDrawer = () => setIsOpen(true);
+  const closeDrawer = () => setIsOpen(false);
+
+  useEffect(() => {
+    closeDrawer();
+  }, [pathname, searchParams]);
+
+  return {
+    isOpen,
+    openDrawer,
+    closeDrawer
+  };
+}
+
+export default function Drawer({
   isOpen,
   onClose,
   children

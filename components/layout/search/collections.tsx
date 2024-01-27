@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 
 import { getCollections } from 'lib/shopify';
 import { getSearchParams } from 'next-impl-getters/get-search-params';
-import FilterList from './filter';
+import FilterList from './sort';
 
 export const dynamic = 'force-dynamic';
 

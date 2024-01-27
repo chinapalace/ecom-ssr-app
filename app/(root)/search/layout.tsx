@@ -1,5 +1,5 @@
 import Collections from 'components/layout/search/collections';
-import FilterList from 'components/layout/search/filter';
+import FilterList from 'components/layout/search/sort';
 import { sorting } from 'lib/constants';
 import { Suspense } from 'react';
 

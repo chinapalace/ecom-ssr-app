@@ -1,4 +1,4 @@
-import { getCollectionProducts } from 'lib/shopify';
+import { getCollectionProductsAndFilters } from 'lib/shopify';
 
 import Grid from 'components/grid';
 import ProductGridItems from 'components/layout/product-grid-items';
@@ -19,7 +19,7 @@ export default async function CategoryPage({
     return JSON.parse(filter);
   });
   const { sortKey, reverse } = sorting.find((item) => item.slug === sort) || defaultSort;
-  const products = await getCollectionProducts({
+  const products = await getCollectionProductsAndFilters({
     shopifyDomain,
     accessToken,
     collection: params.handle,

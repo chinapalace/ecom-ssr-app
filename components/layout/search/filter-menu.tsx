@@ -1,10 +1,10 @@
 'use client';
 
-import Drawer from 'components/drawer';
+import Drawer, { useDrawer } from 'components/drawer';
 import { SearchAndDiscoveryFilters } from 'components/layout/search/search-and-discovery-filters';
 import { ShopifyCollectionFilterValue } from 'lib/shopify/types';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 function getMinMaxPrice(data) {
   let minPrice = 0;
@@ -28,9 +28,7 @@ export default function FilterMenu({ filters }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [isOpen, setIsOpen] = useState(false);
-  const openFilterMenu = () => setIsOpen(true);
-  const closeFilterMenu = () => setIsOpen(false);
+  const { isOpen, openDrawer, closeDrawer } = useDrawer();
 
   const initialFilters = searchParams.get('filters') ? JSON.parse(searchParams.get('filters')) : [];
 
@@ -91,26 +89,18 @@ export default function FilterMenu({ filters }) {
     router.push(`${pathname}?${newParams}`);
   };
 
-  useEffect(() => {
-    closeFilterMenu();
-  }, [pathname, searchParams]);
-
   return (
     <>
-      <button
-        onClick={openFilterMenu}
-        aria-label="Open mobile menu"
-        className="flex h-10 w-full items-center justify-center "
-      >
+      <button onClick={openDrawer} aria-label="Open filter menu" className="h-full w-full">
         Filter
       </button>
-      <Drawer isOpen={isOpen} onClose={closeFilterMenu}>
+      <Drawer isOpen={isOpen} onClose={closeDrawer}>
         <div className="overflow-auto p-4">
           <div className="flex items-center">
             <button
               className="flex h-11 w-11 items-center justify-center rounded-md  text-black transition-colors  dark:text-white"
               aria-label="Close mobile menu"
-              onClick={closeFilterMenu}
+              onClick={closeDrawer}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

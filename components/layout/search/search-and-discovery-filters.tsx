@@ -111,16 +111,18 @@ const PriceRangeFilter: FC<PriceRangeFilterProps> = ({
   return (
     <Disclosure>
       <Disclosure.Button className="py-2">Price</Disclosure.Button>
-      <Disclosure.Panel className="w-full">
-        <Slider
-          value={priceRange}
-          onChange={(e, val, activeThumb) => setPriceRange(val, activeThumb)}
-          getAriaLabel={() => 'Price range'}
-          getAriaValueText={valuetext}
-          min={minAndMaxPrice[0]}
-          max={minAndMaxPrice[1]}
-          marks={marks}
-        />
+      <Disclosure.Panel className="w-full overflow-hidden">
+        <div className="px-5">
+          <Slider
+            value={priceRange}
+            onChange={(e, val, activeThumb) => setPriceRange(val, activeThumb)}
+            getAriaLabel={() => 'Price range'}
+            getAriaValueText={valuetext}
+            min={minAndMaxPrice[0]}
+            max={minAndMaxPrice[1]}
+            marks={marks}
+          />
+        </div>
       </Disclosure.Panel>
     </Disclosure>
   );

@@ -56,6 +56,37 @@ export const getCollectionProductsQuery = /* GraphQL */ `
   ${productFragment}
 `;
 
+export const getCollectionProductsAndFiltersQuery = /* GraphQL */ `
+  query getCollectionProducts(
+    $handle: String!
+    $sortKey: ProductCollectionSortKeys
+    $reverse: Boolean
+    $filters: [ProductFilter!]
+  ) {
+    collection(handle: $handle) {
+      products(sortKey: $sortKey, reverse: $reverse, first: 16, filters: $filters) {
+        edges {
+          node {
+            ...product
+          }
+        }
+        filters {
+          id
+          label
+          type
+          values {
+            id
+            label
+            count
+            input
+          }
+        }
+      }
+    }
+  }
+  ${productFragment}
+`;
+
 export const getCollectionFiltersQuery = /* GraphQL */ `
   query getCollectionFilters($collectionHandle: String!) {
     collection(handle: $collectionHandle) {
