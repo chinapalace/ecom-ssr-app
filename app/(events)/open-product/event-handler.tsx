@@ -20,12 +20,12 @@ function ClientEventPage({ productId }: { productId: string }) {
     const messageHandlerName = 'Tapcart';
 
     try {
-      if (window.webkit) {
-        window.webkit.messageHandlers[messageHandlerName].postMessage(JSON.stringify(eventData));
-        return;
-      } else {
-        window.postMessage(JSON.stringify(eventData));
-      }
+      //   if (window.webkit) {
+      window.webkit.messageHandlers[messageHandlerName].postMessage(JSON.stringify(eventData));
+      //     return;
+      //   } else {
+      //     window.postMessage(JSON.stringify(eventData));
+      //   }
     } catch (error) {
       setError(error.message);
     }
