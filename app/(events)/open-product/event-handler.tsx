@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 function ClientEventPage({ productId }: { productId: string }) {
+  const [error, setError] = useState(null);
   const eventData = {
     type: 'tapcart-sdk',
     message: JSON.stringify({
@@ -18,16 +19,19 @@ function ClientEventPage({ productId }: { productId: string }) {
   useEffect(() => {
     const messageHandlerName = 'Tapcart';
 
-    if (window.webkit) {
-      window.webkit.messageHandlers[messageHandlerName].postMessage(JSON.stringify(eventData));
-      return;
-    } else {
-      window.postMessage(JSON.stringify(eventData));
+    try {
+      if (window.webkit) {
+        window.webkit.messageHandlers[messageHandlerName].postMessage(JSON.stringify(eventData));
+        return;
+      } else {
+        window.postMessage(JSON.stringify(eventData));
+      }
+    } catch (error) {
+      setError(error.message);
     }
   }, []);
 
-  // This component doesn't render anything
-  return null;
+  return <div>{error}</div>;
 }
 
 export default ClientEventPage;
