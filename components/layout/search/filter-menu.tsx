@@ -23,6 +23,7 @@ function getMinMaxPrice(data) {
 
   return [minPrice, maxPrice];
 }
+
 export default function FilterMenu({ filters }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
