@@ -18,7 +18,12 @@ function ClientEventPage({ productId }: { productId: string }) {
   useEffect(() => {
     const messageHandlerName = 'Tapcart';
 
-    window.postMessage(JSON.stringify(eventData));
+    if (window.webkit) {
+      window.webkit.messageHandlers[messageHandlerName].postMessage(JSON.stringify(eventData));
+      return;
+    } else {
+      window.postMessage(JSON.stringify(eventData));
+    }
   }, []);
 
   // This component doesn't render anything
