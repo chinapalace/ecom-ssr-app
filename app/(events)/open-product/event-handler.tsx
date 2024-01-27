@@ -11,7 +11,7 @@ function ClientEventPage({ productId }: { productId: string }) {
       type: 'action',
       name: 'product/open',
       data: {
-        productId
+        productId: '8109689274680'
       }
     })
   };
