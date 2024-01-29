@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import Image from 'next/image';
 import Label from '../label';
 
-export async function GridTileImage({
+export function GridTileImage({
   isInteractive = true,
   active,
   label,

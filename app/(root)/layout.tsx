@@ -15,6 +15,10 @@ function convertThemeToCSSVariables(theme: any) {
   }`;
 }
 
+export const metadata = {
+  title: 'Tapcart'
+};
+
 export default async function RootLayout({ children }: { children: ReactNode }) {
   // const referer = headers().get('referer');
   // const url = new URL(referer!);
