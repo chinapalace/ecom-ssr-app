@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import { dynamicBlurDataUrl } from 'lib/image/blur-image-placeholder';
 import Image from 'next/image';
 import Label from '../label';
 
@@ -20,7 +19,7 @@ export async function GridTileImage({
   };
   src?: string;
 } & React.ComponentProps<typeof Image>) {
-  const blurHash = await dynamicBlurDataUrl(src);
+  // const blurHash = await dynamicBlurDataUrl(src);
 
   return (
     <>
@@ -42,8 +41,8 @@ export async function GridTileImage({
             })}
             src={src}
             {...props}
-            placeholder="blur"
-            blurDataURL={blurHash}
+            // placeholder="blur"
+            // blurDataURL={blurHash}
           />
         ) : null}
       </div>
