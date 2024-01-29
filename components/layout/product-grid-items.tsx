@@ -26,7 +26,7 @@ export default function ProductGridItems({ products }: { products: Product[] }) 
               src={product.featuredImage?.url}
               fill
               sizes="(min-width: 768px) 33vw, (min-width: 640px) 50vw, 50vw"
-              priority={i < 2}
+              priority={i < 6}
             />
           </Link>
         </Grid.Item>
