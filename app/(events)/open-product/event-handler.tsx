@@ -19,8 +19,8 @@ function ClientEventPage({ productId }: { productId: string }) {
   useEffect(() => {
     const messageHandlerName = 'Tapcart';
 
-    window.Tapcart.actions.openProduct({
-      productId: '8109689274680'
+    window.Tapcart?.actions.openProduct({
+      productId
     });
     try {
       //   if (window.webkit) {
