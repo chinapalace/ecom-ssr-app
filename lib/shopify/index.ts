@@ -410,8 +410,14 @@ export async function getMenu(handle: string): Promise<Menu[]> {
   );
 }
 
-export async function getPage(handle: string): Promise<Page> {
+export async function getPage(
+  handle: string,
+  shopifyDomain: string,
+  accessToken: string
+): Promise<Page> {
   const res = await shopifyFetch<ShopifyPageOperation>({
+    shopifyDomain,
+    accessToken,
     query: getPageQuery,
     variables: { handle }
   });

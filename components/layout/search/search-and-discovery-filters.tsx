@@ -26,8 +26,8 @@ const ListFilter: FC<ListFilterProps> = ({ filter, onFilterChange, filterState }
             <input
               type="checkbox"
               id={value.id}
-              onChange={(e) => onFilterChange(filter.values[i].input, e.target.checked)}
-              checked={filterState[filter.values[i].input] || false}
+              defaultChecked={filterState[filter.values[i].input] || false}
+              name={filter.values[i].input}
             />
             <label htmlFor={value.id}>
               {value.label} ({value.count})
