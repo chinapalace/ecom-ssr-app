@@ -1,7 +1,7 @@
 'use client';
 import Drawer, { useDrawer } from 'components/drawer';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { SearchAndDiscoveryFilters } from './search-and-discovery-filters';
 
 function getMinMaxPrice(data) {
@@ -31,6 +31,7 @@ export default function FilterMenu({ filters }) {
   const formRef = useRef(null);
 
   const [minPrice, maxPrice] = getMinMaxPrice(filters);
+  const [priceRange, setPriceRange] = useState([minPrice, maxPrice]);
   const initialFilters = searchParams.get('filters') ? JSON.parse(searchParams.get('filters')) : [];
 
   const initialFilterState = initialFilters.reduce((acc, current) => {
@@ -41,10 +42,6 @@ export default function FilterMenu({ filters }) {
     acc[current] = true;
     return acc;
   }, {});
-
-  const clearFilters = () => {
-    formRef.current.reset();
-  };
 
   const applyFiltersToURL = (event) => {
     event.preventDefault();
@@ -60,7 +57,7 @@ export default function FilterMenu({ filters }) {
     // Add price range to filtersToApply
     // const priceMin = formData.get('minPrice') || minPrice;
     // const priceMax = formData.get('maxPrice') || maxPrice;
-    // filtersToApply.push(JSON.stringify({ price: { min: priceMin, max: priceMax } }));
+    filtersToApply.push(JSON.stringify({ price: { min: priceRange[0], max: priceRange[1] } }));
 
     console.log(filtersToApply);
     const newParams = new URLSearchParams(searchParams.toString());
@@ -117,6 +114,8 @@ export default function FilterMenu({ filters }) {
                 filters={filters}
                 filterState={initialFilterState}
                 minAndMaxPrice={[minPrice, maxPrice]}
+                priceRange={priceRange}
+                setPriceRange={setPriceRange}
               />
             </div>
             <button
