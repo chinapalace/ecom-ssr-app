@@ -1,8 +1,10 @@
 'use client';
+
 import Drawer, { useDrawer } from 'components/drawer';
+import { SearchAndDiscoveryFilters } from 'components/layout/search/search-and-discovery-filters';
+import { ShopifyCollectionFilterValue } from 'lib/shopify/types';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useRef, useState } from 'react';
-import { SearchAndDiscoveryFilters } from './search-and-discovery-filters';
+import { useState } from 'react';
 
 function getMinMaxPrice(data) {
   let minPrice = 0;
@@ -28,10 +30,6 @@ export default function FilterMenu({ filters }) {
   const router = useRouter();
   const { isOpen, openDrawer, closeDrawer } = useDrawer();
 
-  const formRef = useRef(null);
-
-  const [minPrice, maxPrice] = getMinMaxPrice(filters);
-  const [priceRange, setPriceRange] = useState([minPrice, maxPrice]);
   const initialFilters = searchParams.get('filters') ? JSON.parse(searchParams.get('filters')) : [];
 
   const initialFilterState = initialFilters.reduce((acc, current) => {
@@ -43,29 +41,51 @@ export default function FilterMenu({ filters }) {
     return acc;
   }, {});
 
-  const applyFiltersToURL = (event) => {
-    event.preventDefault();
+  // filter prop is the total list of filters
+  // filterState is the current state of the filters derived from the URL
+  const [filterState, setFilterState] = useState(initialFilterState || {});
+  const handleFilterChange = (filterInput: string, value: ShopifyCollectionFilterValue[]) => {
+    setFilterState((prevState) => ({
+      ...prevState,
+      [filterInput]: value
+    }));
+  };
 
-    const formData = new FormData(formRef.current);
-    const filtersToApply = [];
+  const [minPrice, maxPrice] = getMinMaxPrice(filters);
+  const priceFromUrl = initialFilters.find((filter) => {
+    const parsedFilter = JSON.parse(filter);
+    return parsedFilter.price !== undefined;
+  });
+  const priceRangeFromUrlObj = priceFromUrl ? JSON.parse(priceFromUrl).price : {};
+  const priceRangeFromUrl =
+    priceRangeFromUrlObj.min && priceRangeFromUrlObj.max
+      ? [priceRangeFromUrlObj.min, priceRangeFromUrlObj.max]
+      : [minPrice, maxPrice];
 
-    // Convert formData to an array of key-value pairs and iterate through it
-    for (const [key, value] of formData.entries()) {
-      filtersToApply.push(key);
+  const [priceRange, setPriceRange] = useState(priceRangeFromUrl);
+  const [priceRangeUpdated, setPriceRangeUpdated] = useState(false);
+  const handlePriceRangeChange = (newValue: number[]) => {
+    setPriceRange(newValue);
+    setPriceRangeUpdated(true);
+  };
+
+  const clearFilters = () => {
+    setFilterState({});
+    setPriceRange([minPrice, maxPrice]);
+    setPriceRangeUpdated(false);
+  };
+
+  const applyFiltersToURL = () => {
+    let filtersToApply = Object.keys(filterState).filter((key) => filterState[key]);
+    if (priceRangeUpdated) {
+      filtersToApply = [
+        ...filtersToApply,
+        JSON.stringify({ price: { min: priceRange[0], max: priceRange[1] } })
+      ];
     }
-
-    // Add price range to filtersToApply
-    // const priceMin = formData.get('minPrice') || minPrice;
-    // const priceMax = formData.get('maxPrice') || maxPrice;
-    filtersToApply.push(JSON.stringify({ price: { min: priceRange[0], max: priceRange[1] } }));
-
-    console.log(filtersToApply);
     const newParams = new URLSearchParams(searchParams.toString());
-
-    // // Ensure that filters are properly JSON-encoded and URL-encoded
-    // const encodedFilters = filtersToApply.map((filter) => JSON.stringify(filter));
     newParams.set('filters', JSON.stringify(filtersToApply));
-    console.log(newParams.toString());
+
     router.push(`${pathname}?${newParams}`);
   };
 
@@ -76,55 +96,51 @@ export default function FilterMenu({ filters }) {
       </button>
       <Drawer isOpen={isOpen} onClose={closeDrawer}>
         <div className="overflow-auto p-4">
-          <form ref={formRef} onSubmit={applyFiltersToURL}>
-            <div className="flex items-center">
-              <button
-                className="flex h-11 w-11 items-center justify-center rounded-md  text-black transition-colors  dark:text-white"
-                aria-label="Close mobile menu"
-                onClick={closeDrawer}
+          <div className="flex items-center">
+            <button
+              className="flex h-11 w-11 items-center justify-center rounded-md  text-black transition-colors  dark:text-primary"
+              aria-label="Close mobile menu"
+              onClick={closeDrawer}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                aria-hidden="true"
+                className="h-6"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  aria-hidden="true"
-                  className="h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6 18L18 6M6 6l12 12"
-                  ></path>
-                </svg>
-              </button>
-              <div className="flex-grow">
-                <h1 className="text-center">Filters</h1>
-              </div>
-              <input
-                className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-md  text-black transition-colors  dark:text-white"
-                aria-label="Close mobile menu"
-                type="reset"
-                value="Clear"
-              />
-            </div>
-            <div className="mb-4 w-full">
-              <SearchAndDiscoveryFilters
-                filters={filters}
-                filterState={initialFilterState}
-                minAndMaxPrice={[minPrice, maxPrice]}
-                priceRange={priceRange}
-                setPriceRange={setPriceRange}
-              />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </button>
+            <div className="flex-grow">
+              <h1 className="text-center">Filters</h1>
             </div>
             <button
-              type="submit"
-              className="mb-10 h-12 w-full rounded-md bg-black text-white dark:bg-white dark:text-black"
+              className="flex h-11 w-11 items-center justify-center rounded-md  text-black transition-colors  dark:text-primary"
+              aria-label="Close mobile menu"
+              onClick={clearFilters}
             >
-              Apply
+              Clear
             </button>
-          </form>
+          </div>
+          <div className="mb-4 w-full ">
+            <SearchAndDiscoveryFilters
+              filters={filters}
+              onFilterChange={handleFilterChange}
+              filterState={filterState}
+              priceRange={priceRange}
+              setPriceRange={handlePriceRangeChange}
+              minAndMaxPrice={[minPrice, maxPrice]}
+            />
+          </div>
+          <button
+            className="mb-10 h-12 w-full rounded-md bg-black text-primary dark:bg-primary dark:text-black"
+            onClick={applyFiltersToURL}
+          >
+            Apply
+          </button>
         </div>
       </Drawer>
     </>
