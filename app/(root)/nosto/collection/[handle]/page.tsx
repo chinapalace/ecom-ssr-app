@@ -2,7 +2,7 @@ import { getCollectionProductsAndFilters } from 'lib/shopify';
 
 import Grid from 'components/grid';
 import ProductGridItems from 'components/layout/product-grid-items';
-import { NostoCategory, NostoPlacement } from 'components/nosto';
+import { NostoCategory, NostoPlacement, NostoSession } from 'components/nosto';
 import { defaultSort, sorting } from 'lib/constants';
 import NostoProvider from '../../nosto-provider';
 
@@ -32,6 +32,7 @@ export default async function CategoryPage({
 
   return (
     <NostoProvider nostoAccountId="shopify-31139627146">
+      <NostoSession />
       <section>
         <NostoPlacement id="categorypage-nosto-1" />
         <NostoPlacement id="categorypage-nosto-2" />
