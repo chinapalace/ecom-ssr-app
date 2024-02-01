@@ -1,8 +1,8 @@
 import { getCollectionProductsAndFilters } from 'lib/shopify';
 
-import { NostoCategory, NostoPlacement } from '@nosto/nosto-react';
 import Grid from 'components/grid';
 import ProductGridItems from 'components/layout/product-grid-items';
+import { NostoCategory, NostoPlacement } from 'components/nosto';
 import { defaultSort, sorting } from 'lib/constants';
 import NostoProvider from '../../nosto-provider';
 
