@@ -34,6 +34,9 @@ dependencies:
   react-slider:
     specifier: ^2.0.6
     version: 2.0.6(react@18.2.0)
+  tapcart-consumer-components:
+    specifier: ^2.0.8
+    version: 2.0.8(react-dom@18.2.0)(react@18.2.0)
   uuid:
     specifier: ^9.0.1
     version: 9.0.1
@@ -3258,6 +3261,17 @@ packages:
     resolution: {integrity: sha512-GNzQvQTOIP6RyTfE2Qxb8ZVlNmw0n88vp1szwWRimP02mnTsx3Wtn5qRdqY9w2XduFNUgvOwhNnQsjwCp+kqaQ==}
     engines: {node: '>=6'}
     dev: true
+
+  /tapcart-consumer-components@2.0.8(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-m65BSuPQHEw6Db7bdPlnckeEABNuvNvVPBHL7Ws9eUG0rJUhLqUXQY/8wEFTeEQIwFA9x5udy9iguSSXTIP6WA==}
+    engines: {node: '18'}
+    peerDependencies:
+      react: 18.2.0
+      react-dom: 18.2.0
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
 
   /text-table@0.2.0:
     resolution: {integrity: sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==}

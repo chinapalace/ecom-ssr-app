@@ -26,5 +26,11 @@ module.exports = {
         permanent: true
       }
     ];
+  },
+  experimental: {
+    urlImports: [
+      'https://unpkg.com/tapcart-consumer-components@latest/dist/tapcart-consumer-components.es.js',
+      'https://cdn.jsdelivr.net/npm/@pegasis/headlessui-react@1.4.1/dist/components/label/label.d.ts'
+    ]
   }
 };

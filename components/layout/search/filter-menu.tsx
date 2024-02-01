@@ -2,6 +2,7 @@
 
 import Drawer, { useDrawer } from 'components/drawer';
 import { SearchAndDiscoveryFilters } from 'components/layout/search/search-and-discovery-filters';
+import { DynamicComponentWrapper } from 'components/load-dynamic-component';
 import { ShopifyCollectionFilterValue } from 'lib/shopify/types';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
@@ -141,6 +142,8 @@ export default function FilterMenu({ filters }) {
           >
             Apply
           </button>
+
+          <DynamicComponentWrapper />
         </div>
       </Drawer>
     </>

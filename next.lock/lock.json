@@ -1,0 +1,24 @@
+{
+  "https://cdn.jsdelivr.net/npm/@pegasis/headlessui-react@1.4.1/dist/components/label/label.d.ts": {
+    "integrity": "sha512-mt06zKYW8VPlI4BLl9TCrnF0nclmvEtO1uqn9YOZbZpH2pFGix8GKKH1AOj0XFWUsgjzu3RB2AvHZk3BgnxdVg==",
+    "contentType": "text/plain; charset=utf-8"
+  },
+  "https://unpkg.com/@material-ui/core@4.12.4/Button/Button.js": {
+    "integrity": "sha512-mq+e1TbsuFZa9FsrodkL3lgjqu3IUugrXffb7TzLhOKbJHsp+vqy4tXWTYEOg7amua8aTrkbqWcF0o/Ek4G1kA==",
+    "contentType": "application/javascript; charset=utf-8"
+  },
+  "https://unpkg.com/@material-ui/core@4.12.4/es/Button/Button.js": {
+    "integrity": "sha512-XpctURtS9sKyeE4b/+UWGzjg4hq1UWTbaI0V5RYFOpZS+LZeLue9wna1Cntq/LJlgrg/bVz/+GLSnpUQjoJUmQ==",
+    "contentType": "application/javascript; charset=utf-8"
+  },
+  "https://unpkg.com/tapcart-consumer-components@2.0.8/dist/tapcart-consumer-components.es.js": {
+    "integrity": "sha512-p3W8MaVF2tjfZiYJAthZ+t2Gj2Rh4FFqpoI+89iwGVwLdpmOA9cJwY70ioPSJcKCviR+DPlGqN7woU5jaTZH0w==",
+    "contentType": "application/javascript; charset=utf-8"
+  },
+  "https://unpkg.com/tapcart-consumer-components@latest/dist/tapcart-consumer-components.es.js": {
+    "resolved": "https://unpkg.com/tapcart-consumer-components@3.0.0/dist/tapcart-consumer-components.es.js",
+    "integrity": "sha512-gGo/fXmMCeYTmO4vntvPCqRbr9wPCLrJo3bTc8S0WXtlz0FcJE0+dFtoErD4AVFA+4IcVxTvhOnh6y7gFtxGZQ==",
+    "contentType": "application/javascript; charset=utf-8"
+  },
+  "version": 1
+}

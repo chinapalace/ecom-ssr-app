@@ -8,7 +8,7 @@ export default function SearchLayout({ children }: { children: React.ReactNode }
   return (
     <Suspense>
       <div
-        className="flex h-10 w-full border-y border-neutral-200 bg-primary text-center leading-10 text-black transition-colors dark:border-neutral-700 dark:bg-neutral-900 dark:text-white"
+        className="flex h-10 w-full border-y border-neutral-200 bg-neutral-200 text-center leading-10 text-black transition-colors dark:border-neutral-700 dark:bg-neutral-900 dark:text-white"
         style={{ gap: '1px' }}
       >
         <div className="w-full bg-white dark:bg-black">
