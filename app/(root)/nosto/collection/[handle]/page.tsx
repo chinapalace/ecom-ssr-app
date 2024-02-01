@@ -1,5 +1,6 @@
 import { getCollectionProductsAndFilters } from 'lib/shopify';
 
+import { NostoCategory, NostoPlacement } from '@nosto/nosto-react';
 import Grid from 'components/grid';
 import ProductGridItems from 'components/layout/product-grid-items';
 import { defaultSort, sorting } from 'lib/constants';
@@ -32,6 +33,9 @@ export default async function CategoryPage({
   return (
     <NostoProvider nostoAccountId="shopify-31139627146">
       <section>
+        <NostoPlacement id="categorypage-nosto-1" />
+        <NostoPlacement id="categorypage-nosto-2" />
+        <NostoCategory category={params.handle} />
         {products.length === 0 ? (
           <p className="py-3 text-lg">{`No products found in this collection`}</p>
         ) : (
