@@ -1,9 +1,8 @@
-import { getCollectionProductsAndFilters } from 'lib/shopify';
-
 import Grid from 'components/grid';
 import ProductGridItems from 'components/layout/product-grid-items';
 import { defaultSort, sorting } from 'lib/constants';
-
+import { getCollectionProductsAndFilters } from 'lib/shopify';
+import { v4 as uuidv4 } from 'uuid';
 export const runtime = 'edge';
 
 export default async function CategoryPage({
@@ -29,7 +28,7 @@ export default async function CategoryPage({
   });
 
   return (
-    <section>
+    <section key={uuidv4()}>
       {products.length === 0 ? (
         <p className="py-3 text-lg">{`No products found in this collection`}</p>
       ) : (
