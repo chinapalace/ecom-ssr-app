@@ -12,6 +12,15 @@ function convertThemeToCSSVariables(theme: any) {
   });
   return `:root {
     ${cssVariables.join('\n')}
+
+    ::-webkit-scrollbar {
+      display: none;
+  }
+
+  --grid-template-columns-plp: repeat(1, minmax(0, 1fr));
+  --order-plp-image: 0;
+  --border-radius-plp-image: 2px;
+  --display-price: block;
   }`;
 }
 
@@ -20,14 +29,8 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
-  // const referer = headers().get('referer');
-  // const url = new URL(referer!);
-  // const searchParams = url.searchParams;
-  // const searchParams = extractSearchParams(referer);
-  // const appId = searchParams['appId'];
   const searchParams = getSearchParams();
   const appId = searchParams.get('appId')!;
-  // const appId = '4WSnL1O8mv';
   const res = await fetch(`${process.env.TAPCART_API}/apps/${appId}/themes`);
   const data = await res.json();
   const { colors } = data[0];

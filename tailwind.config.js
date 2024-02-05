@@ -19,9 +19,12 @@ module.exports = {
       },
       colors: {
         primary: 'var(--COLOR_PRIMARY)',
-        secondary: 'var(--COLOR_SECONDARY)'
+        secondary: 'var(--COLOR_SECONDARY)',
+        tertiary: 'var(--COLOR_TERTIARY)'
       },
-
+      gridTemplateColumns: {
+        plp: 'var(--grid-template-columns-plp)'
+      },
       keyframes: {
         fadeIn: {
           from: { opacity: 0 },
@@ -50,6 +53,13 @@ module.exports = {
       aspectRatio: {
         '2/3': '2 / 3',
         '3/4': '3 / 4'
+      },
+      order: {
+        '-1': '-1',
+        plpImage: 'var(--order-plp-image)'
+      },
+      borderRadius: {
+        plpImage: 'var(--border-radius-plp-image)'
       }
     }
   },

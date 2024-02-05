@@ -11,9 +11,9 @@ export default function ProductGridItems({ products }: { products: Product[] }) 
   return (
     <>
       {products.map((product, i) => (
-        <Grid.Item key={product.handle} className="animate-fadeIn">
+        <Grid.Item key={product.handle} className="animate-fadeIn" id={product.id}>
           <Link
-            className="relative inline-block h-auto w-full"
+            className="relative flex h-auto w-full flex-col gap-1"
             href={`/open-product?id=${getIdFromGid(product.id)}`}
           >
             <GridTileImage
@@ -25,7 +25,7 @@ export default function ProductGridItems({ products }: { products: Product[] }) 
               }}
               src={product.featuredImage?.url}
               fill
-              sizes="(min-width: 768px) 33vw, (min-width: 640px) 50vw, 50vw"
+              sizes="(min-width: 768px) 33vw, (min-width: 640px) 100vw, 100vw"
               priority={i < 6}
             />
           </Link>

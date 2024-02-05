@@ -136,7 +136,7 @@ export default function FilterMenu({ filters }) {
             />
           </div>
           <button
-            className="mb-10 h-12 w-full rounded-md bg-black text-primary dark:bg-primary dark:text-black"
+            className="mb-10 h-12 w-full rounded-md bg-primary text-secondary dark:bg-primary dark:text-black"
             onClick={applyFiltersToURL}
           >
             Apply
