@@ -29,5 +29,12 @@ module.exports = {
   },
   experimental: {
     serverComponentsExternalPackages: ['mongoose']
+  },
+  webpack: {
+    module: {
+      alias: {
+        'remote-component.config.js': __dirname + '/remote-component.config.js'
+      }
+    }
   }
 };

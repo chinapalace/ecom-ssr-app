@@ -1,5 +1,6 @@
 import Grid from 'components/grid';
 import ProductGridItems from 'components/layout/product-grid-items';
+import HelloWorld from 'components/remote-component';
 import { defaultSort, sorting } from 'lib/constants';
 import { getCollectionProductsAndFilters } from 'lib/shopify';
 import { v4 as uuidv4 } from 'uuid';
@@ -34,6 +35,7 @@ export default async function CategoryPage({
           <ProductGridItems products={products} />
         </Grid>
       )}
+      <HelloWorld name="Justin" />
     </section>
   );
 }

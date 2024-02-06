@@ -6,7 +6,7 @@ export async function GET(request: Request) {
   const cookieStore = cookies();
 
   // Example: Set a cookie using query parameters
-  // ?cookieName=test&cookieValue=123&redirectTo=/home
+  // ?appId=test&shopifyDomain=123&accessToken=123
   const appId = url.searchParams.get('appId');
   const shopifyDomain = url.searchParams.get('shopifyDomain');
   const accessToken = url.searchParams.get('accessToken');
