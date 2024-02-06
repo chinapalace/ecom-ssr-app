@@ -26,5 +26,8 @@ module.exports = {
         permanent: true
       }
     ];
+  },
+  experimental: {
+    serverComponentsExternalPackages: ['mongoose']
   }
 };

@@ -1,17 +1,10 @@
-import { Suspense } from 'react';
-
-export const runtime = 'edge';
+import { getAllApps } from 'lib/tapcart';
 
 export default async function HomePage() {
+  const apps = await getAllApps();
   return (
     <>
-      {/* <ThreeItemGrid /> */}
-      <Suspense>
-        {/* <Carousel /> */}
-        {/* <Suspense>
-          <Footer />
-        </Suspense> */}
-      </Suspense>
+      <h1>Tapcart Apps</h1>
     </>
   );
 }
