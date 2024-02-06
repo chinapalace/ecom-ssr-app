@@ -7,14 +7,12 @@ export const runtime = 'edge';
 export const revalidate = 43200; // 12 hours in seconds
 
 export default async function Page({
-  params,
-  searchParams
+  params
 }: {
   params: { page: string };
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  const { shopifyDomain, accessToken } = searchParams as { [key: string]: string };
-  const page = await getPage(params.page, shopifyDomain, accessToken);
+  const page = await getPage(params.page);
 
   if (!page) return notFound();
 

@@ -2,17 +2,12 @@ import clsx from 'clsx';
 import { Suspense } from 'react';
 
 import { getCollections } from 'lib/shopify';
-import { getSearchParams } from 'next-impl-getters/get-search-params';
 import FilterList from './sort';
 
 export const dynamic = 'force-dynamic';
 
 async function CollectionList() {
-  const searchParams = getSearchParams();
-  const shopifyDomain = searchParams.get('shopifyDomain')!;
-  const accessToken = searchParams.get('accessToken')!;
-
-  const collections = await getCollections({ shopifyDomain, accessToken });
+  const collections = await getCollections();
   return <FilterList list={collections} title="Collections" />;
 }
 

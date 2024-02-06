@@ -2,7 +2,7 @@ import { HIDDEN_PRODUCT_TAG, SHOPIFY_GRAPHQL_API_ENDPOINT, TAGS } from 'lib/cons
 import { isShopifyError } from 'lib/type-guards';
 import { ensureStartsWith } from 'lib/utils';
 import { revalidateTag } from 'next/cache';
-import { headers } from 'next/headers';
+import { headers, cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import {
   addToCartMutation,
@@ -53,31 +53,24 @@ import {
   ShopifyCollectionFilterOperation
 } from './types';
 
-const domain = process.env.SHOPIFY_STORE_DOMAIN
-  ? ensureStartsWith(process.env.SHOPIFY_STORE_DOMAIN, 'https://')
-  : '';
-// const endpoint = `${domain}${SHOPIFY_GRAPHQL_API_ENDPOINT}`;
-// const key = process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN!;
-
 type ExtractVariables<T> = T extends { variables: object } ? T['variables'] : never;
 
 export async function shopifyFetch<T>({
-  shopifyDomain,
-  accessToken,
   cache = 'force-cache',
   headers,
   query,
   tags,
   variables
 }: {
-  shopifyDomain: string;
-  accessToken: string;
   cache?: RequestCache;
   headers?: HeadersInit;
   query: string;
   tags?: string[];
   variables?: ExtractVariables<T>;
 }): Promise<{ status: number; body: T } | never> {
+  const cookieStore = cookies();
+  const shopifyDomain = cookieStore.get('shopifyDomain')?.value;
+  const accessToken = cookieStore.get('accessToken')?.value;
   const endpoint = `${ensureStartsWith(shopifyDomain, 'https://')}${SHOPIFY_GRAPHQL_API_ENDPOINT}`;
 
   try {
@@ -291,10 +284,8 @@ export async function getCollection(handle: string): Promise<Collection | undefi
   return reshapeCollection(res.body.data.collection);
 }
 
-export async function getCollections({ shopifyDomain, accessToken }): Promise<Collection[]> {
+export async function getCollections(): Promise<Collection[]> {
   const res = await shopifyFetch<ShopifyCollectionsOperation>({
-    shopifyDomain,
-    accessToken,
     query: getCollectionsQuery,
     tags: [TAGS.collections]
   });
@@ -322,23 +313,17 @@ export async function getCollections({ shopifyDomain, accessToken }): Promise<Co
 }
 
 export async function getCollectionProducts({
-  shopifyDomain,
-  accessToken,
   collection,
   reverse,
   sortKey,
   filters
 }: {
-  shopifyDomain: string;
-  accessToken: string;
   collection: string;
   reverse?: boolean;
   sortKey?: string;
   filters?: string;
 }): Promise<Product[]> {
   const res = await shopifyFetch<ShopifyCollectionProductsOperation>({
-    shopifyDomain,
-    accessToken,
     query: getCollectionProductsQuery,
     tags: [TAGS.collections, TAGS.products],
     variables: {
@@ -358,23 +343,17 @@ export async function getCollectionProducts({
 }
 
 export async function getCollectionProductsAndFilters({
-  shopifyDomain,
-  accessToken,
   collection,
   reverse,
   sortKey,
   filters
 }: {
-  shopifyDomain: string;
-  accessToken: string;
   collection: string;
   reverse?: boolean;
   sortKey?: string;
   filters?: string;
 }): Promise<Product[]> {
   const res = await shopifyFetch<ShopifyCollectionProductsOperation>({
-    shopifyDomain,
-    accessToken,
     query: getCollectionProductsAndFiltersQuery,
     tags: [TAGS.collections, TAGS.products],
     variables: {
@@ -393,7 +372,7 @@ export async function getCollectionProductsAndFilters({
   return reshapeProducts(removeEdgesAndNodes(res.body.data.collection.products));
 }
 
-export async function getMenu(handle: string): Promise<Menu[]> {
+export async function getMenu(handle: string, domain: string): Promise<Menu[]> {
   const res = await shopifyFetch<ShopifyMenuOperation>({
     query: getMenuQuery,
     tags: [TAGS.collections],
@@ -410,14 +389,8 @@ export async function getMenu(handle: string): Promise<Menu[]> {
   );
 }
 
-export async function getPage(
-  handle: string,
-  shopifyDomain: string,
-  accessToken: string
-): Promise<Page> {
+export async function getPage(handle: string): Promise<Page> {
   const res = await shopifyFetch<ShopifyPageOperation>({
-    shopifyDomain,
-    accessToken,
     query: getPageQuery,
     variables: { handle }
   });
@@ -458,21 +431,15 @@ export async function getProductRecommendations(productId: string): Promise<Prod
 }
 
 export async function getProducts({
-  shopifyDomain,
-  accessToken,
   query,
   reverse,
   sortKey
 }: {
-  shopifyDomain: string;
-  accessToken: string;
   query?: string;
   reverse?: boolean;
   sortKey?: string;
 }): Promise<Product[]> {
   const res = await shopifyFetch<ShopifyProductsOperation>({
-    shopifyDomain,
-    accessToken,
     query: getProductsQuery,
     tags: [TAGS.products],
     variables: {
@@ -485,18 +452,8 @@ export async function getProducts({
   return reshapeProducts(removeEdgesAndNodes(res.body.data.products));
 }
 
-export async function getCollectionFilters({
-  shopifyDomain,
-  accessToken,
-  collectionHandle
-}: {
-  shopifyDomain: string;
-  accessToken: string;
-  collectionHandle: string;
-}) {
+export async function getCollectionFilters({ collectionHandle }: { collectionHandle: string }) {
   const res = await shopifyFetch<ShopifyCollectionFilterOperation>({
-    shopifyDomain,
-    accessToken,
     query: getCollectionFiltersQuery,
     variables: {
       collectionHandle

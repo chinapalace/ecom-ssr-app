@@ -13,11 +13,9 @@ export default async function CategoryPage({
   params: { collection: string };
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  const { sort, shopifyDomain, accessToken } = searchParams as { [key: string]: string };
+  const { sort } = searchParams as { [key: string]: string };
   const { sortKey, reverse } = sorting.find((item) => item.slug === sort) || defaultSort;
   const products = await getCollectionProducts({
-    shopifyDomain,
-    accessToken,
     collection: params.collection,
     sortKey,
     reverse
