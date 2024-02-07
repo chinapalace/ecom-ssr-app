@@ -30,11 +30,9 @@ module.exports = {
   experimental: {
     serverComponentsExternalPackages: ['mongoose']
   },
-  webpack: {
-    module: {
-      alias: {
-        'remote-component.config.js': __dirname + '/remote-component.config.js'
-      }
-    }
+  webpack: (config, { isServer }) => {
+    config.resolve.fallback = { http: false, https: false };
+
+    return config;
   }
 };

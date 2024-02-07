@@ -1,9 +1,9 @@
 import Grid from 'components/grid';
 import ProductGridItems from 'components/layout/product-grid-items';
-import HelloWorld from 'components/remote-component';
 import { defaultSort, sorting } from 'lib/constants';
 import { getCollectionProductsAndFilters } from 'lib/shopify';
 import { v4 as uuidv4 } from 'uuid';
+import HelloWorld from './remote-component';
 export const runtime = 'edge';
 
 export default async function CategoryPage({
