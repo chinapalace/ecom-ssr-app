@@ -35,7 +35,12 @@ export default async function CategoryPage({
           <ProductGridItems products={products} />
         </Grid>
       )}
-      <HelloWorld name="Justin" />
+      <HelloWorld product={products[0]} />
+      <iframe
+        src="https://custom-blocks.tapcart.com/c5ScBNWVw1/YpO0yDt1JEzyVIF0/index.html"
+        width="100%"
+        height="100%"
+      ></iframe>
     </section>
   );
 }
