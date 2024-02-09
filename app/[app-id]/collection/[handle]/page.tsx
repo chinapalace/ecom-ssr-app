@@ -35,7 +35,7 @@ export default async function CategoryPage({
           <ProductGridItems products={products} />
         </Grid>
       )}
-      <HelloWorld product={products[0]} />
+      {products[0] && <HelloWorld product={products[0]} />}
       <iframe
         src="https://custom-blocks.tapcart.com/c5ScBNWVw1/YpO0yDt1JEzyVIF0/index.html"
         width="100%"

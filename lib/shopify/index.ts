@@ -52,6 +52,7 @@ import {
   ShopifyUpdateCartOperation,
   ShopifyCollectionFilterOperation
 } from './types';
+import { getShopifyStoreInfo } from 'lib/tapcart';
 
 type ExtractVariables<T> = T extends { variables: object } ? T['variables'] : never;
 
@@ -68,9 +69,9 @@ export async function shopifyFetch<T>({
   tags?: string[];
   variables?: ExtractVariables<T>;
 }): Promise<{ status: number; body: T } | never> {
-  const cookieStore = cookies();
-  const shopifyDomain = cookieStore.get('shopifyDomain')?.value;
-  const accessToken = cookieStore.get('accessToken')?.value;
+  const { shopifyStore, shopifyApiKey } = await getShopifyStoreInfo('ehPZ1TOjot');
+  const shopifyDomain = shopifyStore + '.myshopify.com';
+  const accessToken = shopifyApiKey;
   const endpoint = `${ensureStartsWith(shopifyDomain, 'https://')}${SHOPIFY_GRAPHQL_API_ENDPOINT}`;
 
   try {
