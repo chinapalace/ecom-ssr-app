@@ -2,7 +2,7 @@ import { HIDDEN_PRODUCT_TAG, SHOPIFY_GRAPHQL_API_ENDPOINT, TAGS } from 'lib/cons
 import { isShopifyError } from 'lib/type-guards';
 import { ensureStartsWith } from 'lib/utils';
 import { revalidateTag } from 'next/cache';
-import { headers, cookies } from 'next/headers';
+import { headers as NextHeaders, cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import {
   addToCartMutation,
@@ -69,7 +69,11 @@ export async function shopifyFetch<T>({
   tags?: string[];
   variables?: ExtractVariables<T>;
 }): Promise<{ status: number; body: T } | never> {
-  const { shopifyStore, shopifyApiKey } = await getShopifyStoreInfo('ehPZ1TOjot');
+  const headerList = NextHeaders();
+  const referer = headerList.get('referer');
+  const appId = referer?.split('/')[3];
+  const testAppId = 'ehPZ1TOjot';
+  const { shopifyStore, shopifyApiKey } = await getShopifyStoreInfo(appId || testAppId);
   const shopifyDomain = shopifyStore + '.myshopify.com';
   const accessToken = shopifyApiKey;
   const endpoint = `${ensureStartsWith(shopifyDomain, 'https://')}${SHOPIFY_GRAPHQL_API_ENDPOINT}`;
@@ -477,7 +481,7 @@ export async function revalidate(req: NextRequest): Promise<NextResponse> {
   // otherwise it will continue to retry the request.
   const collectionWebhooks = ['collections/create', 'collections/delete', 'collections/update'];
   const productWebhooks = ['products/create', 'products/delete', 'products/update'];
-  const topic = headers().get('x-shopify-topic') || 'unknown';
+  const topic = NextHeaders().get('x-shopify-topic') || 'unknown';
   const secret = req.nextUrl.searchParams.get('secret');
   const isCollectionUpdate = collectionWebhooks.includes(topic);
   const isProductUpdate = productWebhooks.includes(topic);
