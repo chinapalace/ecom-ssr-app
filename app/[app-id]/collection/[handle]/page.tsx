@@ -3,7 +3,7 @@ import ProductGridItems from 'components/layout/product-grid-items';
 import { defaultSort, sorting } from 'lib/constants';
 import { getCollectionProductsAndFilters } from 'lib/shopify';
 import { v4 as uuidv4 } from 'uuid';
-import HelloWorld from './remote-component';
+
 export const runtime = 'edge';
 
 export default async function CategoryPage({
@@ -31,11 +31,11 @@ export default async function CategoryPage({
       {products.length === 0 ? (
         <p className="py-3 text-lg">{`No products found in this collection`}</p>
       ) : (
-        <Grid className="grid-cols-2 sm:grid-cols-2 lg:grid-cols-3">
+        <Grid className="grid-cols-1 justify-center sm:grid-cols-1 lg:grid-cols-3">
           <ProductGridItems products={products} />
         </Grid>
       )}
-      {products[0] && <HelloWorld product={products[0]} />}
+
       <iframe
         src="https://custom-blocks.tapcart.com/c5ScBNWVw1/YpO0yDt1JEzyVIF0/index.html"
         width="100%"

@@ -1,19 +1,17 @@
 'use client';
 import { RemoteComponent } from '@paciolan/remote-component';
+import { ErrorBoundary } from 'next/dist/client/components/error-boundary';
 import { Suspense } from 'react';
-
 const url =
   'https://raw.githubusercontent.com/chinapalace/remote-component-starter/main/dist/main.js';
 const HelloWorld = ({ product }) => {
   console.log(product);
   return (
-    <Suspense>
-      <RemoteComponent
-        url={url}
-        title={product.title}
-        images={[{ src: product.featuredImage.url }]}
-      />
-    </Suspense>
+    <ErrorBoundary errorComponent={<div>error</div>}>
+      <Suspense>
+        <RemoteComponent url={url} product={product} />
+      </Suspense>
+    </ErrorBoundary>
   );
 };
 export default HelloWorld;
