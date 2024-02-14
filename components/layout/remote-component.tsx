@@ -5,7 +5,6 @@ import { Suspense } from 'react';
 const url =
   'https://raw.githubusercontent.com/chinapalace/remote-component-starter/main/dist/main.js';
 const HelloWorld = ({ product }) => {
-  console.log(product);
   return (
     <ErrorBoundary errorComponent={<div>error</div>}>
       <Suspense>

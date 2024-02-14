@@ -8,7 +8,11 @@ function convertThemeToCSSVariables(theme: any) {
   });
   return `:root {
     ${cssVariables.join('\n')}
-  }`;
+  }
+  html::-webkit-scrollbar {
+    display: none;
+  }
+  `;
 }
 
 export const metadata = {

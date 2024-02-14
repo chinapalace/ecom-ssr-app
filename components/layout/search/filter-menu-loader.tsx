@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function handler() {
   const pathname = getPathname();
-  const collectionHandle = pathname.split('/').pop();
+  const collectionHandle = pathname.split('/')[3];
 
   const filters = await getCollectionFilters({
     collectionHandle

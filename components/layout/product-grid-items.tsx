@@ -9,7 +9,7 @@ export default function ProductGridItems({ products }: { products: Product[] }) 
     const arr = gid.split('/');
     return arr[arr.length - 1];
   };
-  const test = false;
+  const test = true;
   return (
     <>
       {products.map((product, i) => (
