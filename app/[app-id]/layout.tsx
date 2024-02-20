@@ -9,6 +9,7 @@ function convertThemeToCSSVariables(theme: any) {
   return `:root {
     ${cssVariables.join('\n')}
   }
+  --grid-template-columns-plp: repeat(1, minmax(0, 1fr));
   html::-webkit-scrollbar {
     display: none;
   }

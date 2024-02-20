@@ -50,6 +50,9 @@ module.exports = {
       aspectRatio: {
         '2/3': '2 / 3',
         '3/4': '3 / 4'
+      },
+      gridTemplateColumns: {
+        plp: 'var(--grid-template-columns-plp)'
       }
     }
   },
