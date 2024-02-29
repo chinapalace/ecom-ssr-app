@@ -4,17 +4,17 @@ import { Product } from 'lib/shopify/types';
 import Link from 'next/link';
 import HelloWorld from './remote-component';
 
-export default function ProductGridItems({ products }: { products: Product[] }) {
+export default function ProductGridItems({ products, preview }: { products: Product[] }) {
   const getIdFromGid = (gid: string) => {
     const arr = gid.split('/');
     return arr[arr.length - 1];
   };
-  const test = true;
+
   return (
     <>
       {products.map((product, i) => (
         <Grid.Item key={product.handle} className="margin-auto animate-fadeIn">
-          {!test && (
+          {!preview && (
             <Link
               className="relative inline-block h-auto w-full"
               href={`/open-product?id=${getIdFromGid(product.id)}`}
@@ -33,7 +33,7 @@ export default function ProductGridItems({ products }: { products: Product[] }) 
               />
             </Link>
           )}
-          {test && i < 8 && <HelloWorld product={product} />}
+          {preview && i < 8 && <HelloWorld product={product} />}
         </Grid.Item>
       ))}
     </>

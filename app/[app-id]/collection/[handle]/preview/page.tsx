@@ -33,7 +33,7 @@ export default async function CategoryPage({
         <p className="py-3 text-lg">{`No products found in this collection`}</p>
       ) : (
         <Grid className="grid-cols-plp justify-center lg:grid-cols-3">
-          <ProductGridItems products={products} />
+          <ProductGridItems products={products} preview={true} />
         </Grid>
       )}
       <PostMessageListener />
